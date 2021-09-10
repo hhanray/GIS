@@ -17,7 +17,7 @@ wkGDB = "StreamLinks.gdb/"
 
 missing=[]
 
-# START OF PROCESSING
+# Start of Processing 
 env.workspace = wkDir + wkGDB
 env.overwriteOutput=True
 update = arcpy.ListFeatureClasses("*")
@@ -28,6 +28,7 @@ print('{} streamlinks and subwatersheds will be updated'.format(len(update)))
 
 for basin in update:
     try:
+        # Add indexing
         name = arcpy.Describe(basin).baseName
         code = filter(str.isdigit, str(name))
                 
@@ -37,7 +38,8 @@ for basin in update:
             for row in cursor:
                 row[0]=int(code)
                 cursor.updateRow(row)
-     
+                
+        # Check for type, then add extra indexing for each 
         if name.startswith('StreamLink'):
             arcpy.AlterField_management(basin, 'grid_code', 'au_id')
             arcpy.AlterField_management(basin, 'arcid', 'arc_id')
@@ -48,6 +50,7 @@ for basin in update:
 
         arcpy.Rename_management(basin,  basin+'_QA')
 
+    # Catch and print error messages 
     except arcpy.ExecuteError:
         print (arcpy.GetMessages(2))
         print('Error in Basin {}'.format(basin))

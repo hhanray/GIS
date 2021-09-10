@@ -135,7 +135,8 @@ for watershed in watersheds:
 
         completed.append(watershed)
         print("... Part 2 successfully completed")             
-        
+
+    #Catch errors and return faulty basins    
     except arcpy.ExecuteError:
         print (arcpy.GetMessages(2))
         print('Error in Basin {}'.format(watershed))
@@ -147,7 +148,7 @@ for watershed in watersheds:
         flagged.append(watershed)
         continue
     
-
+#Print list of succesfully processed basins 
 totalrt=time.time()-start
 print('Assessment unit generation completed, total runtime: {} seconds. {} basins were analyzed:'.format(totalrt, len(completed)))
 print(completed)

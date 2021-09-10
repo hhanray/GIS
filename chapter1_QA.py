@@ -19,7 +19,7 @@ watershedName = "T*"
 fields = ['gridcode']
 original_gc=[]
 
-# START OF PROCESSING
+# Start of processing 
 env.workspace = wkDir + wkGDB
 env.overwriteOutput=True
 completed = arcpy.ListFeatureClasses(watershedName)
@@ -57,6 +57,7 @@ set_original=set(original_gc)
 missing=list(sorted(set_original - set_completed))
 extra=list(sorted(set_completed - set_original))
 
+# Print all missing and extra basins 
 print('{} basins are missing:'.format(len(missing)))
 print(missing)
 
